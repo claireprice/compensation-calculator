@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acid-Base Compensation Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    .step {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="number"], select, button {
+      width: auto;
+      padding: 5px;
+      margin: 5px 5px 5px 0;
+    }
+    .result, .explanation, .quiz, .relevance {
+      margin-top: 20px;
+      padding: 10px;
+      border-left: 4px solid #007BFF;
+      background: #f9f9f9;
+    }
+    .quiz {
+      border-color: green;
+      background: #e6ffe6;
+    }
+    .relevance {
+      border-color: darkorange;
+      background: #fff3e6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Compensation Calculator</h1>
+  <p>Use this tool to determine if the compensation for an acid-base disorder is appropriate.</p>
+
+  <div class="step">
+    <div><label for="ph">pH:</label>
+<input type="number" id="ph" step="0.01"></div>
+    <div><label for="hco3">HCO₃⁻ (mmol/L):</label>
+<input type="number" id="hco3" step="0.1"></div>
+    <span style="display: inline-block;"><label for="pco2">pCO₂ (mmHg):</label>
+<input type="number" id="pco2" step="0.1" style="margin-left: 5px;"></span>
+  </div>
+
+  <button onclick="evaluateCompensation()">Evaluate Compensation</button>
+
+  <div class="result" id="result"></div>
+  <div class="explanation" id="explanation"></div>
+  <div class="quiz" id="quiz"></div>
+  <div class="relevance" id="relevance"></div>
+
+  <script>
+    function evaluateCompensation() {
+      const ph = parseFloat(document.getElementById('ph').value);
+      const hco3 = parseFloat(document.getElementById('hco3').value);
+      const pco2 = parseFloat(document.getElementById('pco2').value);
+      const result = document.getElementById('result');
+      const explanation = document.getElementById('explanation');
+      const quiz = document.getElementById('quiz');
+      const relevance = document.getElementById('relevance');
+
+      if (isNaN(ph) || isNaN(hco3) || isNaN(pco2)) {
+        result.textContent = 'Please enter valid values for all fields.';
+        return;
+      }
+
+      let diagnosis = '', expected = '', appropriate = '', explain = '', question = '', relevanceText = '';
+
+      if (ph < 7.35 && hco3 < 22) {
+        diagnosis = 'Metabolic Acidosis';
+        const expectedPCO2 = 1.5 * hco3 + 8;
+        expected = `Expected pCO₂: ${expectedPCO2.toFixed(1)} ± 2 mmHg`;
+        appropriate = Math.abs(pco2 - expectedPCO2) <= 2 ? 'Appropriate compensation' : 'Inappropriate compensation';
+        explain = `This is likely a primary metabolic acidosis.
+
+Step-by-step Walkthrough:
+1. Identify low pH (< 7.35) → Acidosis
+2. Check HCO₃⁻ is low → Metabolic origin
+3. Use Winter’s Formula: Expected pCO₂ = 1.5 × HCO₃⁻ + 8
+4. Compare actual pCO₂ with expected to assess compensation.`;
+        question = 'Why might a pCO₂ higher than expected suggest a mixed disorder?';
+        relevanceText = 'Determining compensation helps distinguish simple metabolic acidosis from a mixed acid-base disorder.';
+      } else if (ph > 7.45 && hco3 > 26) {
+        diagnosis = 'Metabolic Alkalosis';
+        const expectedPCO2 = 0.7 * hco3 + 20;
+        expected = `Expected pCO₂: ${expectedPCO2.toFixed(1)} ± 5 mmHg`;
+        appropriate = Math.abs(pco2 - expectedPCO2) <= 5 ? 'Appropriate compensation' : 'Inappropriate compensation';
+        explain = `This is likely a primary metabolic alkalosis.
+
+Step-by-step Walkthrough:
+1. Identify high pH (> 7.45) → Alkalosis
+2. Check HCO₃⁻ is elevated → Metabolic origin
+3. Estimate expected pCO₂: 0.7 × HCO₃⁻ + 20
+4. Compare actual vs. expected to determine adequacy of compensation.`;
+        question = 'Why is it important that compensation never overcorrects the pH?';
+        relevanceText = 'Assessing the appropriateness of respiratory compensation can reveal hidden pathologies.';
+      } else if (ph < 7.35 && pco2 > 45) {
+        diagnosis = 'Respiratory Acidosis';
+        explain = `This is likely a respiratory acidosis.
+
+Step-by-step Walkthrough:
+1. Identify low pH (< 7.35) → Acidosis
+2. Elevated pCO₂ → Respiratory cause
+3. Evaluate if HCO₃⁻ has increased:
+   - If small increase (~1 mmol/L per 10 mmHg pCO₂): acute
+   - If greater increase (~3.5–4 mmol/L): chronic`;
+        question = 'How can you distinguish acute from chronic respiratory acidosis using HCO₃⁻?';
+        relevanceText = 'Helps guide clinical decision-making about ventilatory support or renal compensation.';
+      } else if (ph > 7.45 && pco2 < 35) {
+        diagnosis = 'Respiratory Alkalosis';
+        explain = `This is likely a respiratory alkalosis.
+
+Step-by-step Walkthrough:
+1. Identify high pH (> 7.45) → Alkalosis
+2. Low pCO₂ → Respiratory cause
+3. Evaluate HCO₃⁻:
+   - If small drop (~2 mmol/L per 10 mmHg): acute
+   - If larger drop (~4–5 mmol/L): chronic`;
+        question = 'What happens to bicarbonate levels in chronic respiratory alkalosis?';
+        relevanceText = 'Understanding whether a response is appropriate can help diagnose panic attacks vs. chronic hyperventilation.';
+      } else {
+        diagnosis = 'Indeterminate or Mixed Disorder';
+        explain = 'The values suggest a more complex picture. Further analysis is needed.';
+        question = 'What could cause a normal pH with abnormal pCO₂ and HCO₃⁻?';
+        relevanceText = 'When values don’t fit a single pattern, consider mixed acid-base disorders or lab error.';
+      }
+
+      result.innerHTML = `<strong>Primary Disorder:</strong> ${diagnosis}<br><strong>${expected}</strong><br><strong>${appropriate}</strong>`;
+      explanation.innerHTML = `<strong>Explanation:</strong> ${explain}`;
+      quiz.innerHTML = `<strong>Quiz:</strong> ${question}`;
+      relevance.innerHTML = `<strong>Clinical Relevance:</strong> ${relevanceText}`;
+    }
+  </script>
+<footer style="text-align:center; margin-top:40px; font-size:0.9em; color:#555;">
+  &copy; Claire L. Price
+</footer>
+</body>
+</html>
