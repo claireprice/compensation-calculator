@@ -46,3 +46,7 @@ Under the following terms:
 
 License details: https://creativecommons.org/licenses/by-nc/4.0/
 
+## Educational Use
+
+This calculator is intended for use in educational settings only and should not be used for clinical decision-making.
+
