@@ -46,6 +46,8 @@ Under the following terms:
 
 License details: https://creativecommons.org/licenses/by-nc/4.0/
 
+[![DOI](https://zenodo.org/badge/991431507.svg)](https://doi.org/10.5281/zenodo.15538866)
+
 ## Educational Use
 
 This calculator is intended for use in educational settings only and should not be used for clinical decision-making.
