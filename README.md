@@ -1,36 +1,34 @@
 # Compensation Calculator
 
-An interactive, browser-based tool designed to assist educators and students in exploring and calculating various compensation scenarios. Built with HTML, CSS, and JavaScript, this calculator provides an intuitive interface for inputting compensation parameters and receiving instant computed results.
+A browser-based educational tool to help students understand the physiological compensatory responses to acid-base imbalances. Designed for undergraduate and graduate education in biochemistry, medicine, and physiology.
 
 ## Live Demo
 
 [Launch the Calculator](https://claireprice.github.io/compensation-calculator/) 
 
-
 ## Features
 
-- Calculates key compensation metrics:
-  - **Base Salary**
-  - **Bonuses**
-  - **Equity**
-  - **Benefits**
-  - **Total Compensation**
-- Instant calculation with real-time updates
-- User-friendly interface suitable for educational settings
-- Responsive design for use on various devices
-
+- Supports interpretation and compensation estimation for:
+  - Respiratory acidosis
+  - Respiratory alkalosis
+  - Metabolic acidosis
+  - Metabolic alkalosis
+- Calculates expected compensation using standard physiological formulas
+- Interactive, real-time feedback
+- Clean, mobile-responsive design
+- Built with HTML, CSS, and JavaScript — no installation needed
 
 ## Getting Started
 
-### Prerequisites
-
-- A modern web browser (e.g., Chrome, Firefox, Safari)
-
-### Installation
-
-1. Clone this repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/claireprice/compensation-calculator.git
+   ```
+
+2. Open the file `index.html` in any modern browser.
+
+No server or installation required.
+
 
 ## License
 
