@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this tool in your teaching, research, or writing, please cite it using the following metadata."
+title: "Compensation Calculator"
+version: 1.0.0
+type: software
+authors:
+  - family-names: Price
+    given-names: Claire Louise
+    orcid: https://orcid.org/0000-0002-6045-4835 
+    affiliation: Swansea University Medical School, Swansea SA2 8PP UK
+date-released: 2025-05-28
+repository-code: github.com/claireprice/compensation-calculator
+license: CC-BY-NC-4.0
